@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    name: my-app
+  name: my-k8s-pod
+  selfLink: /api/v1/namespaces/my-k8s-ns/pods/my-k8s-pod
+spec:
+  containers:
+  - image: busybox
+    imagePullPolicy: Always
+    name: my-k8s-container
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-2qlzw
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  nodeName: mogueye874c.mylabserver.com
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-2qlzw
+    secret:
+      defaultMode: 420
+      secretName: default-token-2qlzw
+status:
+  phase: Pending
+  qosClass: BestEffort

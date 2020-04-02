@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: my-k8s-pod
+ namespace: my-k8s-ns
+ labels:
+  name: my-app      
+spec:
+ containers:
+ - name: my-k8s-container
+   image: busybox
+   
