@@ -1,0 +1,10 @@
+# A ConfigMap a Kubernetes object, that can be used to store configuration data in a key-value pair
+# This conf data, can be used to configure an application/software running in a pod.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config-map
+data:
+  myKey: myValue
+  myAnotherKey: myAnotherValue
+  

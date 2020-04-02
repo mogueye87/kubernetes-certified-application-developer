@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: server
+  labels:
+    app: nginx-server
+    environment: dev
+# define a desired with of the number of replicas 
+spec:
+  replicas: 3
+  # define a selector which will be used to indicates which pod to apply deployment
+  selector:
+    matchLabels:
+      app: nginx-server
+  # define the deployment strategy either rolling update which apply a gradual change to pod
+  # or blue/green deployment which is used to switch traffic between two identical env blue (former app version)
+  # blue environment with new version of application    
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+     type: RollingUpdate 
+  # use a template in which the container is define in a yaml definition of a deployment   
+  template:
+    metadata:
+      name: nginx-server
+      labels:
+        app: nginx-server  
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.7.1
+        # command: 
+        # - sh
+        # - -c
+        # - "Hello, I love kubernetes and devops"
+        # expose the port 80 of the container
+        ports:
+        - containerPort: 80
+        # check container health with livenessProbe  
+        livenessProbe: 
+          exec:
+            command:
+            - echo
+            - testing
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        # Check if a container is ready a service request
+        readinessProbe: 
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 5       
+
+
+
