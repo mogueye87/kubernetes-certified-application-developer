@@ -1,0 +1,25 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mysql-pod
+spec:
+  containers:
+  - name: mysql
+    image: mysql:5.6
+    command: ["/bin/sh", "-c", "echo $(MYSQL_ROOT_PASSWORD) && sleep 3600"]
+    ports:
+    - containerPort: 3306
+    volumeMounts:
+    - mountPath: "/var/lib/mysql"
+      name: mysql-storage
+    env:
+    - name: MYSQL_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: mysql-password
+          key: mdp
+  volumes:
+  - name: mysql-storage
+    persistentVolumeClaim:
+      claimName: mysql-pvc
+      

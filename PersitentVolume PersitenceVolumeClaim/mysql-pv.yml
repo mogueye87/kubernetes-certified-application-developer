@@ -1,0 +1,13 @@
+apiVersion: v1
+# Persistence Volume Resource
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  storageClassName: local-storage
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 1Gi
+  hostPath: 
+    path: "/mnt/data" 
